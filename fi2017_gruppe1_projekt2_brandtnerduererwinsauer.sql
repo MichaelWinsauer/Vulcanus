@@ -25,49 +25,105 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `Stelle`
+--
+
+CREATE TABLE `stelle` (
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `Bezeichnung` varchar(64) COLLATE utf8_german2_ci NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+
+-- --------------------------------------------------------
+--
 -- Tabellenstruktur für Tabelle `angestellte`
 --
 
 CREATE TABLE `angestellte` (
-  `Id` int(11) NOT NULL,
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `Name` varchar(64) COLLATE utf8_german2_ci NOT NULL,
-  `Pwhash` varchar(255) COLLATE utf8_german2_ci NOT NULL
+  `Stelle` int(11) NOT NULL,
+  `Pwhash` varchar(255) COLLATE utf8_german2_ci NOT NULL,
+	CONSTRAINT Angestellte_Stelle FOREIGN KEY (Stelle)
+		REFERENCES Stelle(id)
+	
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+
+-- --------------------------------------------------------
+--
+-- Tabellenstruktur für Tabelle `ort`
+--
+
+CREATE TABLE `ort` (
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `PLZ` int(5) NOT NULL,
+  `Ortsname` varchar(64) COLLATE utf8_german2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 -- --------------------------------------------------------
+--
+-- Tabellenstruktur für Tabelle `Bestellung`
+--
+
+CREATE TABLE `bestellung` (
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `Name` varchar(64) COLLATE utf8_german2_ci NOT NULL,
+  `Strasse` varchar(64) COLLATE utf8_german2_ci NOT NULL,
+  `Ort` int(11) NOT NULL, 
+  `Telefon` varchar(20) COLLATE utf8_german2_ci NOT NULL,
+  CONSTRAINT bestellung_ort FOREIGN KEY(Ort)
+	REFERENCES ort(Id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+-- --------------------------------------------------------
+
 
 --
 -- Tabellenstruktur für Tabelle `groesse`
 --
 
 CREATE TABLE `groesse` (
-  `Id` int(7) NOT NULL,
-  `Groesse` int(7) NOT NULL,
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `Groesse` int(11) NOT NULL,
   `Zuschlag` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 -- --------------------------------------------------------
-
 --
--- Tabellenstruktur für Tabelle `ort`
+-- Tabellenstruktur für Tabelle `zutat`
 --
 
-CREATE TABLE `ort` (
-  `Id` int(7) NOT NULL,
-  `PLZ` int(5) NOT NULL,
-  `Ortsname` varchar(64) COLLATE utf8_german2_ci NOT NULL
+CREATE TABLE `zutat` (
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `Bezeichnung` varchar(64) COLLATE utf8_german2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 -- --------------------------------------------------------
+--
+-- Tabellenstruktur für Tabelle `Pizza`
+--
 
+CREATE TABLE `pizza` (
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `Name` varchar(64) COLLATE utf8_german2_ci NOT NULL,
+  `Dauer` int (2) NOT NULL,
+  `Grundpreis` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+-- --------------------------------------------------------
 --
 -- Tabellenstruktur für Tabelle `pizzazutat`
 --
 
 CREATE TABLE `pizzazutat` (
-  `Id` int(11) NOT NULL,
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `Pizza` int(11) NOT NULL,
-  `Zutat` int(11) NOT NULL
+  `Zutat` int(11) NOT NULL, 
+  CONSTRAINT PizzaFK FOREIGN KEY(Pizza) 
+	REFERENCES Pizza(ID),
+  CONSTRAINT ZutatFK FOREIGN KEY(Zutat) 
+	REFERENCES Zutat(id)	
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 -- --------------------------------------------------------
@@ -77,94 +133,37 @@ CREATE TABLE `pizzazutat` (
 --
 
 CREATE TABLE `status` (
-  `Id` int(11) NOT NULL,
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `Bezeichnung` varchar(64) COLLATE utf8_german2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 -- --------------------------------------------------------
-
 --
--- Tabellenstruktur für Tabelle `zutat`
---
-
-CREATE TABLE `zutat` (
-  `Id` int(11) NOT NULL,
-  `Bezeichnung` varchar(64) COLLATE utf8_german2_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
-
---
--- Indizes der exportierten Tabellen
+-- Tabellenstruktur für Tabelle `Bestellposition`
 --
 
---
--- Indizes für die Tabelle `angestellte`
---
-ALTER TABLE `angestellte`
-  ADD PRIMARY KEY (`Id`);
+CREATE TABLE `bestellposition` (
+  `Id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `Bestellung` int(11)  NOT NULL,
+  `Pizza` int(11)  NOT NULL,
+  `Groesse` int(11)  NOT NULL,
+  `Status` int(11)  NOT NULL,
+  `Koch` int(11)  NOT NULL,
+  `Lieferant` int(11)  NOT NULL,
+	CONSTRAINT Bestellposition_Bestellung FOREIGN KEY (Bestellung)
+		REFERENCES bestellung(Id),
+	CONSTRAINT Bestellposition_Pizza FOREIGN KEY (Pizza)
+		REFERENCES pizza(Id),
+	CONSTRAINT Bestellposition_Groesse FOREIGN KEY (Groesse)
+		REFERENCES Groesse(Id),		
+	CONSTRAINT Bestellposition_Stauts FOREIGN KEY (Status)
+		REFERENCES status(Id),
+	CONSTRAINT Bestellposition_Koch FOREIGN KEY (Koch)
+		REFERENCES angestellte(Id),
+	CONSTRAINT Bestellposition_Lieferant FOREIGN KEY (Lieferant)
+		REFERENCES angestellte(Id)		
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
---
--- Indizes für die Tabelle `groesse`
---
-ALTER TABLE `groesse`
-  ADD PRIMARY KEY (`Id`);
-
---
--- Indizes für die Tabelle `ort`
---
-ALTER TABLE `ort`
-  ADD PRIMARY KEY (`Id`);
-
---
--- Indizes für die Tabelle `pizzazutat`
---
-ALTER TABLE `pizzazutat`
-  ADD PRIMARY KEY (`Id`);
-
---
--- Indizes für die Tabelle `status`
---
-ALTER TABLE `status`
-  ADD PRIMARY KEY (`Id`);
-
---
--- Indizes für die Tabelle `zutat`
---
-ALTER TABLE `zutat`
-  ADD PRIMARY KEY (`Id`);
-
---
--- AUTO_INCREMENT für exportierte Tabellen
---
-
---
--- AUTO_INCREMENT für Tabelle `angestellte`
---
-ALTER TABLE `angestellte`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `groesse`
---
-ALTER TABLE `groesse`
-  MODIFY `Id` int(7) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `ort`
---
-ALTER TABLE `ort`
-  MODIFY `Id` int(7) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `status`
---
-ALTER TABLE `status`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `zutat`
---
-ALTER TABLE `zutat`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
