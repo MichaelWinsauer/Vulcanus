@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 21. Mai 2019 um 11:12
+-- Erstellungszeit: 28. Mai 2019 um 10:55
 -- Server-Version: 10.1.32-MariaDB
 -- PHP-Version: 7.2.5
 
@@ -57,9 +57,20 @@ CREATE TABLE `bestellposition` (
   `Pizza` int(11) NOT NULL,
   `Groesse` int(11) NOT NULL,
   `Status` int(11) NOT NULL,
-  `Koch` int(11) NOT NULL,
-  `Lieferant` int(11) NOT NULL
+  `Koch` int(11) DEFAULT NULL,
+  `Lieferant` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+--
+-- Daten für Tabelle `bestellposition`
+--
+
+INSERT INTO `bestellposition` (`Id`, `Bestellung`, `Pizza`, `Groesse`, `Status`, `Koch`, `Lieferant`) VALUES
+(1, 1, 1, 2, 1, NULL, NULL),
+(2, 2, 12, 2, 2, 1, NULL),
+(3, 3, 1, 2, 5, 2, 4),
+(4, 4, 9, 1, 3, 2, NULL),
+(5, 5, 7, 2, 6, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -75,6 +86,17 @@ CREATE TABLE `bestellung` (
   `Telefon` varchar(20) COLLATE utf8_german2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
+--
+-- Daten für Tabelle `bestellung`
+--
+
+INSERT INTO `bestellung` (`Id`, `Name`, `Strasse`, `Ort`, `Telefon`) VALUES
+(1, 'Benjamin Brandtner', 'Am Königsberg 7', 1, '0931 672843'),
+(2, 'Lukas Dürer', 'Friedrich-Ebert-Ring 13', 6, '09391 171345'),
+(3, 'Michael Winsauer', 'Würzburger Straße 56', 2, '0931 134545'),
+(4, 'Marcel Scheinpflug', 'Daheim 24', 3, '09391 67345'),
+(5, 'Philipp Hägerich', 'Eueracher Straße 99', 5, '0931 19145');
+
 -- --------------------------------------------------------
 
 --
@@ -86,6 +108,14 @@ CREATE TABLE `groesse` (
   `Groesse` int(11) NOT NULL,
   `Zuschlag` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+--
+-- Daten für Tabelle `groesse`
+--
+
+INSERT INTO `groesse` (`Id`, `Groesse`, `Zuschlag`) VALUES
+(1, 28, 0),
+(2, 32, 1);
 
 -- --------------------------------------------------------
 
@@ -99,6 +129,18 @@ CREATE TABLE `ort` (
   `Ortsname` varchar(64) COLLATE utf8_german2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
+--
+-- Daten für Tabelle `ort`
+--
+
+INSERT INTO `ort` (`Id`, `PLZ`, `Ortsname`) VALUES
+(1, 97070, 'Würzburg'),
+(2, 57072, 'Siegen'),
+(3, 85049, 'Ingolstadt'),
+(4, 9111, 'Chemnitz'),
+(5, 51371, 'Leberkusen'),
+(6, 89073, 'Ulm');
+
 -- --------------------------------------------------------
 
 --
@@ -109,8 +151,27 @@ CREATE TABLE `pizza` (
   `Id` int(11) NOT NULL,
   `Name` varchar(64) COLLATE utf8_german2_ci NOT NULL,
   `Dauer` int(2) NOT NULL,
-  `Grundpreis` float NOT NULL
+  `Grundpreis` float NOT NULL,
+  `Schärfe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+--
+-- Daten für Tabelle `pizza`
+--
+
+INSERT INTO `pizza` (`Id`, `Name`, `Dauer`, `Grundpreis`, `Schärfe`) VALUES
+(1, 'Margherita', 12, 6, 0),
+(2, 'Salami', 14, 6.5, 1),
+(3, 'Prosciutto', 14, 6.5, 0),
+(4, 'Pepperoni', 12, 6.5, 3),
+(5, 'Prosciutto Fungi', 13, 7, 0),
+(6, 'Mary', 15, 7.5, 1),
+(7, 'Hawaii', 16, 7, 0),
+(8, 'Bolognese', 18, 6.5, 1),
+(9, 'Thunfisch', 13, 8, 0),
+(10, 'Mozzarella', 12, 7, 0),
+(11, 'Quattro Formaggi', 13, 8, 0),
+(12, 'Diavolo', 14, 7.5, 5);
 
 -- --------------------------------------------------------
 
@@ -124,6 +185,45 @@ CREATE TABLE `pizzazutat` (
   `Zutat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
+--
+-- Daten für Tabelle `pizzazutat`
+--
+
+INSERT INTO `pizzazutat` (`Id`, `Pizza`, `Zutat`) VALUES
+(5, 1, 1),
+(6, 2, 16),
+(7, 2, 1),
+(8, 3, 18),
+(9, 3, 1),
+(10, 4, 21),
+(11, 4, 1),
+(12, 5, 18),
+(13, 5, 13),
+(14, 5, 1),
+(26, 6, 18),
+(27, 6, 16),
+(28, 6, 13),
+(29, 6, 1),
+(30, 7, 18),
+(31, 7, 20),
+(32, 7, 1),
+(33, 8, 22),
+(34, 8, 1),
+(35, 9, 9),
+(36, 9, 11),
+(37, 9, 1),
+(38, 10, 7),
+(39, 10, 2),
+(40, 10, 1),
+(41, 11, 1),
+(42, 11, 4),
+(43, 11, 6),
+(44, 11, 2),
+(45, 12, 11),
+(46, 12, 12),
+(47, 12, 21),
+(48, 12, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -134,6 +234,18 @@ CREATE TABLE `status` (
   `Id` int(11) NOT NULL,
   `Bezeichnung` varchar(64) COLLATE utf8_german2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+--
+-- Daten für Tabelle `status`
+--
+
+INSERT INTO `status` (`Id`, `Bezeichnung`) VALUES
+(1, 'Bestellung angenommen'),
+(2, 'Wird zubereitet'),
+(3, 'Im Ofen'),
+(4, 'Fertig gebacken'),
+(5, 'Wird ausgeliefert'),
+(6, 'Ist ausgeliefert');
 
 -- --------------------------------------------------------
 
@@ -164,6 +276,34 @@ CREATE TABLE `zutat` (
   `Id` int(11) NOT NULL,
   `Bezeichnung` varchar(64) COLLATE utf8_german2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+--
+-- Daten für Tabelle `zutat`
+--
+
+INSERT INTO `zutat` (`Id`, `Bezeichnung`) VALUES
+(1, 'Emmentaler'),
+(2, 'Mozzarella'),
+(3, 'Fontina'),
+(4, 'Gorgonzola'),
+(5, 'Parmesan'),
+(6, 'Gouda'),
+(7, 'Tomaten'),
+(8, 'Oliven'),
+(9, 'Thunfisch'),
+(10, 'Pfefferschoten'),
+(11, 'Zwiebeln'),
+(12, 'Paprika'),
+(13, 'Pilze'),
+(14, 'Spinat'),
+(15, 'Zucchini'),
+(16, 'Salami'),
+(17, 'Speck'),
+(18, 'Schinken'),
+(19, 'Knoblauch'),
+(20, 'Ananas'),
+(21, 'Pepperoni'),
+(22, 'Fleischsoße');
 
 --
 -- Indizes der exportierten Tabellen
@@ -253,43 +393,43 @@ ALTER TABLE `angestellte`
 -- AUTO_INCREMENT für Tabelle `bestellposition`
 --
 ALTER TABLE `bestellposition`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `bestellung`
 --
 ALTER TABLE `bestellung`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `groesse`
 --
 ALTER TABLE `groesse`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `ort`
 --
 ALTER TABLE `ort`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `pizza`
 --
 ALTER TABLE `pizza`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT für Tabelle `pizzazutat`
 --
 ALTER TABLE `pizzazutat`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT für Tabelle `status`
 --
 ALTER TABLE `status`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `stelle`
@@ -301,7 +441,7 @@ ALTER TABLE `stelle`
 -- AUTO_INCREMENT für Tabelle `zutat`
 --
 ALTER TABLE `zutat`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints der exportierten Tabellen
