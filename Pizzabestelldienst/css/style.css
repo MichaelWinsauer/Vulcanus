@@ -1,13 +1,53 @@
 * {
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
 }
 
-.container-full {
+.fullscreen {
     margin: 0 auto;
-    width: 100%;
+    width: 100vw;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100%;
+    overflow: hidden;
 }
 
-.letterspacing-1 {
+.ls-1 {
     letter-spacing: 1px;
+}
+
+.carousel {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel {
+    max-height: 100vh;
+}
+
+.navbar {
+    font-size: 20px;
+}
+
+.dropdown-menu {
+    width: 250px;
+}
+
+.bg-bt {
+    background-color: #000000AA;
+}
+
+.blend {
+    mix-blend-mode: multiply;
+}
+
+.lh-30 {
+    line-height: 30px;
+}
+
+.bg-d9 {
+    background-color: #d9d9d9; 
+}
+
+.bg-59 {
+    background-color: #595959;
 }
