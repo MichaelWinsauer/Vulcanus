@@ -48,5 +48,25 @@ WHERE s.Bezeichnung = "Bestellung angenommen"
 OR s.Bezeichnung = "Wird zubereitet"
 OR s.Bezeichnung = "Im Ofen";
 
-
 -- Lieferanten
+CREATE OR REPLACE VIEW vLieferanten AS
+SELECT
+	b.Id AS 'Bestell-ID',
+	bp.Id AS 'Bestellposition-ID',
+	p.Name AS Pizza,
+    g.Groesse,
+	b.Name,
+	b.Strasse,
+	CONCAT(o.PLZ, ' ', o.Ortsname) AS Ort,
+	CONCAT(FORMAT(p.Grundpreis + g.Zuschlag, 2, 'de_DE'), ' €') AS Preis,
+	s.Bezeichnung AS Status,
+	a.Name AS Lieferant
+FROM bestellung b
+INNER JOIN bestellposition bp ON b.Id = bp.Bestellung
+INNER JOIN pizza p ON bp.Pizza = p.Id
+INNER JOIN groesse g ON bp.Groesse = g.Id
+INNER JOIN status s ON bp.Status = s.Id
+INNER JOIN ort o ON b.Ort = o.Id
+LEFT JOIN angestellte a ON bp.Lieferant = a.Id
+WHERE s.Bezeichnung = "Fertig gebacken"
+OR s.Bezeichnung = "Wird ausgeliefert";

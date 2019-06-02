@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2019 at 11:06 AM
+-- Generation Time: Jun 02, 2019 at 06:20 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -71,7 +71,8 @@ INSERT INTO `bestellposition` (`Id`, `Bestellung`, `Pizza`, `Groesse`, `Status`,
 (3, 3, 1, 2, 5, 2, 4),
 (4, 4, 9, 1, 3, 2, NULL),
 (5, 5, 7, 2, 6, 2, 3),
-(6, 1, 4, 2, 1, NULL, NULL);
+(6, 1, 4, 2, 1, NULL, NULL),
+(7, 3, 7, 2, 4, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -287,6 +288,25 @@ CREATE TABLE `vkoeche` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `vlieferanten`
+-- (See below for the actual view)
+--
+CREATE TABLE `vlieferanten` (
+`Bestell-ID` int(11)
+,`Bestellposition-ID` int(11)
+,`Pizza` varchar(64)
+,`Groesse` int(11)
+,`Name` varchar(64)
+,`Strasse` varchar(64)
+,`Ort` varchar(76)
+,`Preis` varchar(65)
+,`Status` varchar(64)
+,`Lieferant` varchar(64)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `vspeisekarte`
 -- (See below for the actual view)
 --
@@ -346,6 +366,15 @@ INSERT INTO `zutat` (`Id`, `Bezeichnung`) VALUES
 DROP TABLE IF EXISTS `vkoeche`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vkoeche`  AS  select `b`.`Id` AS `Bestell-ID`,`bp`.`Id` AS `Bestellposition-ID`,`p`.`Name` AS `Pizza`,`g`.`Groesse` AS `Groesse`,(select group_concat(`z`.`Bezeichnung` separator ', ') from ((`zutat` `z` join `pizzazutat` `pz` on((`z`.`Id` = `pz`.`Zutat`))) join `pizza` `p2` on((`pz`.`Pizza` = `p2`.`Id`))) where (`p2`.`Id` = `p`.`Id`)) AS `Rezept`,`p`.`Dauer` AS `Backzeit`,`s`.`Bezeichnung` AS `Status`,`a`.`Name` AS `Koch` from (((((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `pizza` `p` on((`bp`.`Pizza` = `p`.`Id`))) join `groesse` `g` on((`bp`.`Groesse` = `g`.`Id`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) left join `angestellte` `a` on((`bp`.`Koch` = `a`.`Id`))) where ((`s`.`Bezeichnung` = 'Bestellung angenommen') or (`s`.`Bezeichnung` = 'Wird zubereitet') or (`s`.`Bezeichnung` = 'Im Ofen')) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vlieferanten`
+--
+DROP TABLE IF EXISTS `vlieferanten`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vlieferanten`  AS  select `b`.`Id` AS `Bestell-ID`,`bp`.`Id` AS `Bestellposition-ID`,`p`.`Name` AS `Pizza`,`g`.`Groesse` AS `Groesse`,`b`.`Name` AS `Name`,`b`.`Strasse` AS `Strasse`,concat(`o`.`PLZ`,' ',`o`.`Ortsname`) AS `Ort`,concat(format((`p`.`Grundpreis` + `g`.`Zuschlag`),2,'de_DE'),' €') AS `Preis`,`s`.`Bezeichnung` AS `Status`,`a`.`Name` AS `Lieferant` from ((((((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `pizza` `p` on((`bp`.`Pizza` = `p`.`Id`))) join `groesse` `g` on((`bp`.`Groesse` = `g`.`Id`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) join `ort` `o` on((`b`.`Ort` = `o`.`Id`))) left join `angestellte` `a` on((`bp`.`Lieferant` = `a`.`Id`))) where ((`s`.`Bezeichnung` = 'Fertig gebacken') or (`s`.`Bezeichnung` = 'Wird ausgeliefert')) ;
 
 -- --------------------------------------------------------
 
@@ -444,7 +473,7 @@ ALTER TABLE `angestellte`
 -- AUTO_INCREMENT for table `bestellposition`
 --
 ALTER TABLE `bestellposition`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `bestellung`
