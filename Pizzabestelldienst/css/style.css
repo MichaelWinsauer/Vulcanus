@@ -27,8 +27,11 @@
 .navbar {
     font-size: 20px;
     background-color: #00000000;
-    height: 100px;    
     transition: .3s ease-in-out;
+}
+
+.bg-dark {
+    background-color: #000000AA;
 }
 
 .dropdown-menu {
@@ -88,10 +91,8 @@
 
 .scrolled {
     background-color: #000000AA;
-    height: 50px;
 }
 
 .stay-black {
     background-color: #000000AA;
-    height: 50px;
 }
