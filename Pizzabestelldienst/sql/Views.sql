@@ -1,3 +1,26 @@
+-- Speißekarte
+CREATE OR REPLACE VIEW vSpeisekarte AS
+SELECT
+	p.Id,
+	p.Name AS Pizza,
+	(		
+		SELECT GROUP_CONCAT(z.Bezeichnung SEPARATOR ', ')
+		FROM zutat z
+		INNER JOIN pizzazutat pz ON z.Id = pz.Zutat
+		INNER JOIN Pizza p2 ON pz.Pizza = p2.Id
+		WHERE p2.Id = p.Id
+	) AS Rezept,
+	p.Schärfe,
+	CONCAT(FORMAT(p.Grundpreis, 2, 'de_DE'), ' €') AS '28cm',
+	CONCAT(FORMAT(
+		(
+			SELECT p.Grundpreis + g.Zuschlag
+			FROM groesse g
+			WHERE g.Groesse = 32
+		)
+		, 2, 'de_DE'), ' €') AS '32cm'
+FROM pizza p
+
 -- Köche
 CREATE OR REPLACE VIEW vKoeche AS
 SELECT 
@@ -24,3 +47,6 @@ LEFT JOIN angestellte a ON bp.Koch = a.Id
 WHERE s.Bezeichnung = "Bestellung angenommen"
 OR s.Bezeichnung = "Wird zubereitet"
 OR s.Bezeichnung = "Im Ofen";
+
+
+-- Lieferanten

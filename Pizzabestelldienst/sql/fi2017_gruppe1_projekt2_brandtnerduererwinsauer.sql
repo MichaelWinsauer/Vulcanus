@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 28. Mai 2019 um 10:55
--- Server-Version: 10.1.32-MariaDB
--- PHP-Version: 7.2.5
+-- Generation Time: Jun 02, 2019 at 11:06 AM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `fi2017_gruppe1_projekt2_brandtnerduererwinsauer`
+-- Database: `fi2017_gruppe1_projekt2_brandtnerduererwinsauer`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `angestellte`
+-- Table structure for table `angestellte`
 --
 
 CREATE TABLE `angestellte` (
@@ -36,7 +36,7 @@ CREATE TABLE `angestellte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `angestellte`
+-- Dumping data for table `angestellte`
 --
 
 INSERT INTO `angestellte` (`Id`, `Name`, `Stelle`, `Pwhash`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `angestellte` (`Id`, `Name`, `Stelle`, `Pwhash`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `bestellposition`
+-- Table structure for table `bestellposition`
 --
 
 CREATE TABLE `bestellposition` (
@@ -62,7 +62,7 @@ CREATE TABLE `bestellposition` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `bestellposition`
+-- Dumping data for table `bestellposition`
 --
 
 INSERT INTO `bestellposition` (`Id`, `Bestellung`, `Pizza`, `Groesse`, `Status`, `Koch`, `Lieferant`) VALUES
@@ -70,12 +70,13 @@ INSERT INTO `bestellposition` (`Id`, `Bestellung`, `Pizza`, `Groesse`, `Status`,
 (2, 2, 12, 2, 2, 1, NULL),
 (3, 3, 1, 2, 5, 2, 4),
 (4, 4, 9, 1, 3, 2, NULL),
-(5, 5, 7, 2, 6, 2, 3);
+(5, 5, 7, 2, 6, 2, 3),
+(6, 1, 4, 2, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `bestellung`
+-- Table structure for table `bestellung`
 --
 
 CREATE TABLE `bestellung` (
@@ -87,7 +88,7 @@ CREATE TABLE `bestellung` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `bestellung`
+-- Dumping data for table `bestellung`
 --
 
 INSERT INTO `bestellung` (`Id`, `Name`, `Strasse`, `Ort`, `Telefon`) VALUES
@@ -100,7 +101,7 @@ INSERT INTO `bestellung` (`Id`, `Name`, `Strasse`, `Ort`, `Telefon`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `groesse`
+-- Table structure for table `groesse`
 --
 
 CREATE TABLE `groesse` (
@@ -110,7 +111,7 @@ CREATE TABLE `groesse` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `groesse`
+-- Dumping data for table `groesse`
 --
 
 INSERT INTO `groesse` (`Id`, `Groesse`, `Zuschlag`) VALUES
@@ -120,7 +121,7 @@ INSERT INTO `groesse` (`Id`, `Groesse`, `Zuschlag`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `ort`
+-- Table structure for table `ort`
 --
 
 CREATE TABLE `ort` (
@@ -130,7 +131,7 @@ CREATE TABLE `ort` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `ort`
+-- Dumping data for table `ort`
 --
 
 INSERT INTO `ort` (`Id`, `PLZ`, `Ortsname`) VALUES
@@ -144,7 +145,7 @@ INSERT INTO `ort` (`Id`, `PLZ`, `Ortsname`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `pizza`
+-- Table structure for table `pizza`
 --
 
 CREATE TABLE `pizza` (
@@ -156,7 +157,7 @@ CREATE TABLE `pizza` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `pizza`
+-- Dumping data for table `pizza`
 --
 
 INSERT INTO `pizza` (`Id`, `Name`, `Dauer`, `Grundpreis`, `Schärfe`) VALUES
@@ -176,7 +177,7 @@ INSERT INTO `pizza` (`Id`, `Name`, `Dauer`, `Grundpreis`, `Schärfe`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `pizzazutat`
+-- Table structure for table `pizzazutat`
 --
 
 CREATE TABLE `pizzazutat` (
@@ -186,7 +187,7 @@ CREATE TABLE `pizzazutat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `pizzazutat`
+-- Dumping data for table `pizzazutat`
 --
 
 INSERT INTO `pizzazutat` (`Id`, `Pizza`, `Zutat`) VALUES
@@ -227,7 +228,7 @@ INSERT INTO `pizzazutat` (`Id`, `Pizza`, `Zutat`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `status`
+-- Table structure for table `status`
 --
 
 CREATE TABLE `status` (
@@ -236,7 +237,7 @@ CREATE TABLE `status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `status`
+-- Dumping data for table `status`
 --
 
 INSERT INTO `status` (`Id`, `Bezeichnung`) VALUES
@@ -250,7 +251,7 @@ INSERT INTO `status` (`Id`, `Bezeichnung`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `stelle`
+-- Table structure for table `stelle`
 --
 
 CREATE TABLE `stelle` (
@@ -259,7 +260,7 @@ CREATE TABLE `stelle` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `stelle`
+-- Dumping data for table `stelle`
 --
 
 INSERT INTO `stelle` (`Id`, `Bezeichnung`) VALUES
@@ -269,7 +270,39 @@ INSERT INTO `stelle` (`Id`, `Bezeichnung`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `zutat`
+-- Stand-in structure for view `vkoeche`
+-- (See below for the actual view)
+--
+CREATE TABLE `vkoeche` (
+`Bestell-ID` int(11)
+,`Bestellposition-ID` int(11)
+,`Pizza` varchar(64)
+,`Groesse` int(11)
+,`Rezept` text
+,`Backzeit` int(2)
+,`Status` varchar(64)
+,`Koch` varchar(64)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vspeisekarte`
+-- (See below for the actual view)
+--
+CREATE TABLE `vspeisekarte` (
+`Id` int(11)
+,`Pizza` varchar(64)
+,`Rezept` text
+,`Schärfe` int(11)
+,`28cm` varchar(51)
+,`32cm` varchar(65)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `zutat`
 --
 
 CREATE TABLE `zutat` (
@@ -278,7 +311,7 @@ CREATE TABLE `zutat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
--- Daten für Tabelle `zutat`
+-- Dumping data for table `zutat`
 --
 
 INSERT INTO `zutat` (`Id`, `Bezeichnung`) VALUES
@@ -305,19 +338,37 @@ INSERT INTO `zutat` (`Id`, `Bezeichnung`) VALUES
 (21, 'Pepperoni'),
 (22, 'Fleischsoße');
 
+-- --------------------------------------------------------
+
 --
--- Indizes der exportierten Tabellen
+-- Structure for view `vkoeche`
+--
+DROP TABLE IF EXISTS `vkoeche`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vkoeche`  AS  select `b`.`Id` AS `Bestell-ID`,`bp`.`Id` AS `Bestellposition-ID`,`p`.`Name` AS `Pizza`,`g`.`Groesse` AS `Groesse`,(select group_concat(`z`.`Bezeichnung` separator ', ') from ((`zutat` `z` join `pizzazutat` `pz` on((`z`.`Id` = `pz`.`Zutat`))) join `pizza` `p2` on((`pz`.`Pizza` = `p2`.`Id`))) where (`p2`.`Id` = `p`.`Id`)) AS `Rezept`,`p`.`Dauer` AS `Backzeit`,`s`.`Bezeichnung` AS `Status`,`a`.`Name` AS `Koch` from (((((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `pizza` `p` on((`bp`.`Pizza` = `p`.`Id`))) join `groesse` `g` on((`bp`.`Groesse` = `g`.`Id`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) left join `angestellte` `a` on((`bp`.`Koch` = `a`.`Id`))) where ((`s`.`Bezeichnung` = 'Bestellung angenommen') or (`s`.`Bezeichnung` = 'Wird zubereitet') or (`s`.`Bezeichnung` = 'Im Ofen')) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vspeisekarte`
+--
+DROP TABLE IF EXISTS `vspeisekarte`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vspeisekarte`  AS  select `p`.`Id` AS `Id`,`p`.`Name` AS `Pizza`,(select group_concat(`z`.`Bezeichnung` separator ', ') from ((`zutat` `z` join `pizzazutat` `pz` on((`z`.`Id` = `pz`.`Zutat`))) join `pizza` `p2` on((`pz`.`Pizza` = `p2`.`Id`))) where (`p2`.`Id` = `p`.`Id`)) AS `Rezept`,`p`.`Schärfe` AS `Schärfe`,concat(format(`p`.`Grundpreis`,2,'de_DE'),' €') AS `28cm`,concat(format((select (`p`.`Grundpreis` + `g`.`Zuschlag`) from `groesse` `g` where (`g`.`Groesse` = 32)),2,'de_DE'),' €') AS `32cm` from `pizza` `p` ;
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `angestellte`
+-- Indexes for table `angestellte`
 --
 ALTER TABLE `angestellte`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `Angestellte_Stelle` (`Stelle`);
 
 --
--- Indizes für die Tabelle `bestellposition`
+-- Indexes for table `bestellposition`
 --
 ALTER TABLE `bestellposition`
   ADD PRIMARY KEY (`Id`),
@@ -329,32 +380,32 @@ ALTER TABLE `bestellposition`
   ADD KEY `Bestellposition_Lieferant` (`Lieferant`);
 
 --
--- Indizes für die Tabelle `bestellung`
+-- Indexes for table `bestellung`
 --
 ALTER TABLE `bestellung`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `bestellung_ort` (`Ort`);
 
 --
--- Indizes für die Tabelle `groesse`
+-- Indexes for table `groesse`
 --
 ALTER TABLE `groesse`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indizes für die Tabelle `ort`
+-- Indexes for table `ort`
 --
 ALTER TABLE `ort`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indizes für die Tabelle `pizza`
+-- Indexes for table `pizza`
 --
 ALTER TABLE `pizza`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indizes für die Tabelle `pizzazutat`
+-- Indexes for table `pizzazutat`
 --
 ALTER TABLE `pizzazutat`
   ADD PRIMARY KEY (`Id`),
@@ -362,99 +413,99 @@ ALTER TABLE `pizzazutat`
   ADD KEY `ZutatFK` (`Zutat`);
 
 --
--- Indizes für die Tabelle `status`
+-- Indexes for table `status`
 --
 ALTER TABLE `status`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indizes für die Tabelle `stelle`
+-- Indexes for table `stelle`
 --
 ALTER TABLE `stelle`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indizes für die Tabelle `zutat`
+-- Indexes for table `zutat`
 --
 ALTER TABLE `zutat`
   ADD PRIMARY KEY (`Id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `angestellte`
+-- AUTO_INCREMENT for table `angestellte`
 --
 ALTER TABLE `angestellte`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT für Tabelle `bestellposition`
+-- AUTO_INCREMENT for table `bestellposition`
 --
 ALTER TABLE `bestellposition`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT für Tabelle `bestellung`
+-- AUTO_INCREMENT for table `bestellung`
 --
 ALTER TABLE `bestellung`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT für Tabelle `groesse`
+-- AUTO_INCREMENT for table `groesse`
 --
 ALTER TABLE `groesse`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT für Tabelle `ort`
+-- AUTO_INCREMENT for table `ort`
 --
 ALTER TABLE `ort`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT für Tabelle `pizza`
+-- AUTO_INCREMENT for table `pizza`
 --
 ALTER TABLE `pizza`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT für Tabelle `pizzazutat`
+-- AUTO_INCREMENT for table `pizzazutat`
 --
 ALTER TABLE `pizzazutat`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
--- AUTO_INCREMENT für Tabelle `status`
+-- AUTO_INCREMENT for table `status`
 --
 ALTER TABLE `status`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT für Tabelle `stelle`
+-- AUTO_INCREMENT for table `stelle`
 --
 ALTER TABLE `stelle`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT für Tabelle `zutat`
+-- AUTO_INCREMENT for table `zutat`
 --
 ALTER TABLE `zutat`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- Constraints der exportierten Tabellen
+-- Constraints for dumped tables
 --
 
 --
--- Constraints der Tabelle `angestellte`
+-- Constraints for table `angestellte`
 --
 ALTER TABLE `angestellte`
   ADD CONSTRAINT `Angestellte_Stelle` FOREIGN KEY (`Stelle`) REFERENCES `stelle` (`Id`);
 
 --
--- Constraints der Tabelle `bestellposition`
+-- Constraints for table `bestellposition`
 --
 ALTER TABLE `bestellposition`
   ADD CONSTRAINT `Bestellposition_Bestellung` FOREIGN KEY (`Bestellung`) REFERENCES `bestellung` (`Id`),
@@ -465,13 +516,13 @@ ALTER TABLE `bestellposition`
   ADD CONSTRAINT `Bestellposition_Stauts` FOREIGN KEY (`Status`) REFERENCES `status` (`Id`);
 
 --
--- Constraints der Tabelle `bestellung`
+-- Constraints for table `bestellung`
 --
 ALTER TABLE `bestellung`
   ADD CONSTRAINT `bestellung_ort` FOREIGN KEY (`Ort`) REFERENCES `ort` (`Id`);
 
 --
--- Constraints der Tabelle `pizzazutat`
+-- Constraints for table `pizzazutat`
 --
 ALTER TABLE `pizzazutat`
   ADD CONSTRAINT `PizzaFK` FOREIGN KEY (`Pizza`) REFERENCES `pizza` (`Id`),
