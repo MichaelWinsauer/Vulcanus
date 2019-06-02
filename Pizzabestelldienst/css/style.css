@@ -26,6 +26,9 @@
 
 .navbar {
     font-size: 20px;
+    background-color: #00000000;
+    height: 100px;    
+    transition: .3s ease-in-out;
 }
 
 .dropdown-menu {
@@ -81,4 +84,14 @@
 
 .list-item {
     color: white;
+}
+
+.scrolled {
+    background-color: #000000AA;
+    height: 50px;
+}
+
+.stay-black {
+    background-color: #000000AA;
+    height: 50px;
 }
