@@ -30,10 +30,6 @@
     transition: .3s ease-in-out;
 }
 
-.bg-dark {
-    background-color: #000000AA;
-}
-
 .dropdown-menu {
     width: 250px;
 }
@@ -68,17 +64,16 @@
     overflow:hidden;
 }
 
-.logoScaling-small {
-    width:75%;
+.logoScaling-fixed {
+    width: 250px;
     height: auto;
     overflow:hidden;
 }
 
-.list-group-item {
-    background-color: transparent;
-    border-top: 1px solid #ddd;
-    border-radius: 0;
-    color: #fff;
+.logoScaling-small {
+    width:75%;
+    height: auto;
+    overflow:hidden;
 }
 
 .list-group-transparent {
@@ -95,4 +90,14 @@
 
 .stay-black {
     background-color: #000000AA;
+}
+
+.big {
+    font-size: 70px;
+}
+
+@Media only screen and (max-width: 924px) {
+    .logoScaling-fixed {
+        max-width: 80%;
+    }
 }
