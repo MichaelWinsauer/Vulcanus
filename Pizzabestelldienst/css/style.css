@@ -26,6 +26,8 @@
 
 .navbar {
     font-size: 20px;
+    background-color: #00000000;
+    transition: .3s ease-in-out;
 }
 
 .dropdown-menu {
@@ -62,17 +64,16 @@
     overflow:hidden;
 }
 
-.logoScaling-small {
-    width:75%;
+.logoScaling-fixed {
+    width: 250px;
     height: auto;
     overflow:hidden;
 }
 
-.list-group-item {
-    background-color: transparent;
-    border-top: 1px solid #ddd;
-    border-radius: 0;
-    color: #fff;
+.logoScaling-small {
+    width:75%;
+    height: auto;
+    overflow:hidden;
 }
 
 .list-group-transparent {
@@ -81,4 +82,22 @@
 
 .list-item {
     color: white;
+}
+
+.scrolled {
+    background-color: #000000AA;
+}
+
+.stay-black {
+    background-color: #000000AA;
+}
+
+.big {
+    font-size: 70px;
+}
+
+@Media only screen and (max-width: 924px) {
+    .logoScaling-fixed {
+        max-width: 80%;
+    }
 }
