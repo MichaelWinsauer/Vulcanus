@@ -20,6 +20,7 @@ SELECT
 		)
 		, 2, 'de_DE'), ' €') AS '32cm'
 FROM pizza p
+ORDER BY p.Id ASC
 
 -- Köche
 CREATE OR REPLACE VIEW vKoeche AS
@@ -46,7 +47,8 @@ INNER JOIN status s ON bp.Status = s.Id
 LEFT JOIN angestellte a ON bp.Koch = a.Id
 WHERE s.Bezeichnung = "Bestellung angenommen"
 OR s.Bezeichnung = "Wird zubereitet"
-OR s.Bezeichnung = "Im Ofen";
+OR s.Bezeichnung = "Im Ofen"
+ORDER BY b.Id ASC, bp.Id ASC;
 
 -- Lieferanten
 CREATE OR REPLACE VIEW vLieferanten AS
@@ -69,4 +71,5 @@ INNER JOIN status s ON bp.Status = s.Id
 INNER JOIN ort o ON b.Ort = o.Id
 LEFT JOIN angestellte a ON bp.Lieferant = a.Id
 WHERE s.Bezeichnung = "Fertig gebacken"
-OR s.Bezeichnung = "Wird ausgeliefert";
+OR s.Bezeichnung = "Wird ausgeliefert"
+ORDER BY b.Id ASC, bp.Id ASC;

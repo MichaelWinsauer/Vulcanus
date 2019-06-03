@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2019 at 06:20 PM
+-- Generation Time: Jun 03, 2019 at 07:11 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -72,7 +72,9 @@ INSERT INTO `bestellposition` (`Id`, `Bestellung`, `Pizza`, `Groesse`, `Status`,
 (4, 4, 9, 1, 3, 2, NULL),
 (5, 5, 7, 2, 6, 2, 3),
 (6, 1, 4, 2, 1, NULL, NULL),
-(7, 3, 7, 2, 4, 2, NULL);
+(7, 3, 7, 2, 4, 2, NULL),
+(16, 14, 6, 2, 1, NULL, NULL),
+(17, 14, 8, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -97,7 +99,8 @@ INSERT INTO `bestellung` (`Id`, `Name`, `Strasse`, `Ort`, `Telefon`) VALUES
 (2, 'Lukas Dürer', 'Friedrich-Ebert-Ring 13', 6, '09391 171345'),
 (3, 'Michael Winsauer', 'Würzburger Straße 56', 2, '0931 134545'),
 (4, 'Marcel Scheinpflug', 'Daheim 24', 3, '09391 67345'),
-(5, 'Philipp Hägerich', 'Eueracher Straße 99', 5, '0931 19145');
+(5, 'Philipp Hägerich', 'Eueracher Straße 99', 5, '0931 19145'),
+(14, 'Tobias', 'Zeunrich-Heiner-Strasse 80', 1, '0931 672847');
 
 -- --------------------------------------------------------
 
@@ -365,7 +368,7 @@ INSERT INTO `zutat` (`Id`, `Bezeichnung`) VALUES
 --
 DROP TABLE IF EXISTS `vkoeche`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vkoeche`  AS  select `b`.`Id` AS `Bestell-ID`,`bp`.`Id` AS `Bestellposition-ID`,`p`.`Name` AS `Pizza`,`g`.`Groesse` AS `Groesse`,(select group_concat(`z`.`Bezeichnung` separator ', ') from ((`zutat` `z` join `pizzazutat` `pz` on((`z`.`Id` = `pz`.`Zutat`))) join `pizza` `p2` on((`pz`.`Pizza` = `p2`.`Id`))) where (`p2`.`Id` = `p`.`Id`)) AS `Rezept`,`p`.`Dauer` AS `Backzeit`,`s`.`Bezeichnung` AS `Status`,`a`.`Name` AS `Koch` from (((((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `pizza` `p` on((`bp`.`Pizza` = `p`.`Id`))) join `groesse` `g` on((`bp`.`Groesse` = `g`.`Id`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) left join `angestellte` `a` on((`bp`.`Koch` = `a`.`Id`))) where ((`s`.`Bezeichnung` = 'Bestellung angenommen') or (`s`.`Bezeichnung` = 'Wird zubereitet') or (`s`.`Bezeichnung` = 'Im Ofen')) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vkoeche`  AS  select `b`.`Id` AS `Bestell-ID`,`bp`.`Id` AS `Bestellposition-ID`,`p`.`Name` AS `Pizza`,`g`.`Groesse` AS `Groesse`,(select group_concat(`z`.`Bezeichnung` separator ', ') from ((`zutat` `z` join `pizzazutat` `pz` on((`z`.`Id` = `pz`.`Zutat`))) join `pizza` `p2` on((`pz`.`Pizza` = `p2`.`Id`))) where (`p2`.`Id` = `p`.`Id`)) AS `Rezept`,`p`.`Dauer` AS `Backzeit`,`s`.`Bezeichnung` AS `Status`,`a`.`Name` AS `Koch` from (((((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `pizza` `p` on((`bp`.`Pizza` = `p`.`Id`))) join `groesse` `g` on((`bp`.`Groesse` = `g`.`Id`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) left join `angestellte` `a` on((`bp`.`Koch` = `a`.`Id`))) where ((`s`.`Bezeichnung` = 'Bestellung angenommen') or (`s`.`Bezeichnung` = 'Wird zubereitet') or (`s`.`Bezeichnung` = 'Im Ofen')) order by `b`.`Id`,`bp`.`Id` ;
 
 -- --------------------------------------------------------
 
@@ -374,7 +377,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vlieferanten`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vlieferanten`  AS  select `b`.`Id` AS `Bestell-ID`,`bp`.`Id` AS `Bestellposition-ID`,`p`.`Name` AS `Pizza`,`g`.`Groesse` AS `Groesse`,`b`.`Name` AS `Name`,`b`.`Strasse` AS `Strasse`,concat(`o`.`PLZ`,' ',`o`.`Ortsname`) AS `Ort`,concat(format((`p`.`Grundpreis` + `g`.`Zuschlag`),2,'de_DE'),' €') AS `Preis`,`s`.`Bezeichnung` AS `Status`,`a`.`Name` AS `Lieferant` from ((((((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `pizza` `p` on((`bp`.`Pizza` = `p`.`Id`))) join `groesse` `g` on((`bp`.`Groesse` = `g`.`Id`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) join `ort` `o` on((`b`.`Ort` = `o`.`Id`))) left join `angestellte` `a` on((`bp`.`Lieferant` = `a`.`Id`))) where ((`s`.`Bezeichnung` = 'Fertig gebacken') or (`s`.`Bezeichnung` = 'Wird ausgeliefert')) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vlieferanten`  AS  select `b`.`Id` AS `Bestell-ID`,`bp`.`Id` AS `Bestellposition-ID`,`p`.`Name` AS `Pizza`,`g`.`Groesse` AS `Groesse`,`b`.`Name` AS `Name`,`b`.`Strasse` AS `Strasse`,concat(`o`.`PLZ`,' ',`o`.`Ortsname`) AS `Ort`,concat(format((`p`.`Grundpreis` + `g`.`Zuschlag`),2,'de_DE'),' €') AS `Preis`,`s`.`Bezeichnung` AS `Status`,`a`.`Name` AS `Lieferant` from ((((((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `pizza` `p` on((`bp`.`Pizza` = `p`.`Id`))) join `groesse` `g` on((`bp`.`Groesse` = `g`.`Id`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) join `ort` `o` on((`b`.`Ort` = `o`.`Id`))) left join `angestellte` `a` on((`bp`.`Lieferant` = `a`.`Id`))) where ((`s`.`Bezeichnung` = 'Fertig gebacken') or (`s`.`Bezeichnung` = 'Wird ausgeliefert')) order by `b`.`Id`,`bp`.`Id` ;
 
 -- --------------------------------------------------------
 
@@ -473,13 +476,13 @@ ALTER TABLE `angestellte`
 -- AUTO_INCREMENT for table `bestellposition`
 --
 ALTER TABLE `bestellposition`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `bestellung`
 --
 ALTER TABLE `bestellung`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `groesse`
