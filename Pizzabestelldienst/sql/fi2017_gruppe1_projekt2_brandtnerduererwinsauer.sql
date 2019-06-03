@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2019 at 07:11 PM
+-- Generation Time: Jun 03, 2019 at 07:14 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -168,8 +168,8 @@ INSERT INTO `pizza` (`Id`, `Name`, `Dauer`, `Grundpreis`, `Schärfe`) VALUES
 (1, 'Margherita', 12, 6, 0),
 (2, 'Salami', 14, 6.5, 1),
 (3, 'Prosciutto', 14, 6.5, 0),
-(4, 'Pepperoni', 12, 6.5, 3),
-(5, 'Prosciutto Fungi', 13, 7, 0),
+(4, 'Peperoni', 12, 6.5, 3),
+(5, 'Prosciutto Funghi', 13, 7, 0),
 (6, 'Mary', 15, 7.5, 1),
 (7, 'Hawaii', 16, 7, 0),
 (8, 'Bolognese', 18, 6.5, 1),
