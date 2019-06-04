@@ -12,12 +12,12 @@
    {
       "Id":"1",
       "PLZ": "97070",
-      "Ort":"Würzburg"
+      "Ortsname":"Würzburg"
    },
    {
       "Id":"2",
       "PLZ": "57072",
-      "Ort":"Siegen"
+      "Ortsname":"Siegen"
    }
 ]
 */
