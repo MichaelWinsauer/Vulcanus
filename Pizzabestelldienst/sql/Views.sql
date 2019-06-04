@@ -73,3 +73,15 @@ LEFT JOIN angestellte a ON bp.Lieferant = a.Id
 WHERE s.Bezeichnung = "Fertig gebacken"
 OR s.Bezeichnung = "Wird ausgeliefert"
 ORDER BY b.Id ASC, bp.Id ASC;
+
+-- Status
+CREATE OR REPLACE VIEW vStatus AS
+SELECT
+	b.Id AS BestellId,
+	MIN(bp.Status) AS StatusId,
+	s.Bezeichnung
+FROM bestellung b
+INNER JOIN bestellposition bp ON b.Id = bp.Bestellung
+INNER JOIN status s ON bp.Status = s.Id
+GROUP BY b.ID
+ORDER BY b.Id ASC, bp.Id ASC

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2019 at 07:14 PM
+-- Generation Time: Jun 04, 2019 at 11:00 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -325,6 +325,18 @@ CREATE TABLE `vspeisekarte` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `vstatus`
+-- (See below for the actual view)
+--
+CREATE TABLE `vstatus` (
+`BestellId` int(11)
+,`StatusId` int(11)
+,`Bezeichnung` varchar(64)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `zutat`
 --
 
@@ -387,6 +399,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `vspeisekarte`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vspeisekarte`  AS  select `p`.`Id` AS `Id`,`p`.`Name` AS `Pizza`,(select group_concat(`z`.`Bezeichnung` separator ', ') from ((`zutat` `z` join `pizzazutat` `pz` on((`z`.`Id` = `pz`.`Zutat`))) join `pizza` `p2` on((`pz`.`Pizza` = `p2`.`Id`))) where (`p2`.`Id` = `p`.`Id`)) AS `Rezept`,`p`.`Schärfe` AS `Schärfe`,concat(format(`p`.`Grundpreis`,2,'de_DE'),' €') AS `28cm`,concat(format((select (`p`.`Grundpreis` + `g`.`Zuschlag`) from `groesse` `g` where (`g`.`Groesse` = 32)),2,'de_DE'),' €') AS `32cm` from `pizza` `p` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vstatus`
+--
+DROP TABLE IF EXISTS `vstatus`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vstatus`  AS  select `b`.`Id` AS `BestellId`,min(`bp`.`Status`) AS `StatusId`,`s`.`Bezeichnung` AS `Bezeichnung` from ((`bestellung` `b` join `bestellposition` `bp` on((`b`.`Id` = `bp`.`Bestellung`))) join `status` `s` on((`bp`.`Status` = `s`.`Id`))) group by `b`.`Id` order by `b`.`Id`,`bp`.`Id` ;
 
 --
 -- Indexes for dumped tables
@@ -476,13 +497,13 @@ ALTER TABLE `angestellte`
 -- AUTO_INCREMENT for table `bestellposition`
 --
 ALTER TABLE `bestellposition`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `bestellung`
 --
 ALTER TABLE `bestellung`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `groesse`
