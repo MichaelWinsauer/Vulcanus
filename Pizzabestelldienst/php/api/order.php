@@ -7,25 +7,25 @@
 //Content-Type: application/json
 
 //Format of Expected Data: JSON Object with the properties:
-//Name, Strasse, OrtId, Telefon, Bestellpositionen
+//Name, Strasse, Ort-Id, Telefon, Bestellpositionen
 //Where Bestellpositionen is an Array of Objects with the properties:
-//PizzaId, Groesse
+//Pizza-Id, Groesse
 
 //Example of valid, expected JSON:
 /*
 {
 	"Name": "Benjamin Brandtner",
 	"Strasse": "Am Koenigsberg 7",
-	"OrtId": 1,
+	"Ort-Id": 1,
 	"Telefon": "0931 672843",
 	"Bestellpositionen":
 	[
 		{
-			"PizzaId": 1,
+			"Pizza-Id": 1,
 			"Groesse": 32
 		},
 		{
-			"PizzaId": 4,
+			"Pizza-Id": 4,
 			"Groesse": 32
 		}
 	]
@@ -93,7 +93,7 @@ function decodeJson($inputText)
 
 function checkOrderForExpectedKeys($order)
 {
-	$expectedKeys = array("Name","Strasse","OrtId","Telefon","Bestellpositionen");
+	$expectedKeys = array("Name","Strasse","Ort-Id","Telefon","Bestellpositionen");
 	foreach ($expectedKeys as $key) 
 	{
 		if(!array_key_exists($key,$order))
@@ -112,7 +112,7 @@ function checkOrderDataTypes($order)
 
 	$tests["Name"] = is_string($order["Name"]);
 	$tests["Strasse"] = is_string($order["Strasse"]);
-	$tests["OrtId"] = is_numeric($order["OrtId"]);
+	$tests["Ort-Id"] = is_numeric($order["Ort-Id"]);
 	$tests["Telefon"] = is_string($order["Telefon"]);
 	$tests["Bestellpositionen"] = is_array($order["Bestellpositionen"]);
 
@@ -130,7 +130,7 @@ function checkOrderDataTypes($order)
 
 function checkItemForExpectedKeys($item, $i)
 {
-	$expectedKeys = array("PizzaId","Groesse");
+	$expectedKeys = array("Pizza-Id","Groesse");
 
 	foreach ($expectedKeys as $key) 
 	{
@@ -148,7 +148,7 @@ function checkItemDataTypes($item, $i)
 {
 	$tests = array();
 
-	$tests["PizzaId"] = is_numeric($item["PizzaId"]);
+	$tests["Pizza-Id"] = is_numeric($item["Pizza-Id"]);
 	$tests["Groesse"] = is_numeric($item["Groesse"]);
 
 	foreach ($tests as $key => $passed) 
@@ -191,7 +191,7 @@ function insertOrderIntoDb($order)
 
 	$statement->bindValue(':Name', $order["Name"]);
 	$statement->bindValue(':Strasse', $order["Strasse"]);
-	$statement->bindValue(':OrtId', $order["OrtId"], PDO::PARAM_INT);
+	$statement->bindValue(':OrtId', $order["Ort-Id"], PDO::PARAM_INT);
 	$statement->bindValue(':Telefon', $order["Telefon"]);
 
 	$success = $statement->execute();
@@ -265,7 +265,7 @@ function insertItemsIntoDB($orderId, $orderItems)
 
 	foreach ($orderItems as $item)
 	{
-		$statement->bindValue(':PizzaId', $item["PizzaId"]);
+		$statement->bindValue(':PizzaId', $item["Pizza-Id"]);
 		$statement->bindValue(':Groesse', $item["Groesse"]);
 		
 		$success = $statement->execute();
