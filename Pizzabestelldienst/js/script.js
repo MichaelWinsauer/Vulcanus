@@ -1,3 +1,15 @@
+var fullOrder = {
+    name: "",
+    strasse: "",
+    ortId: "",
+    telefon: "",
+    bestelloptionen: []
+}
+
+var cities = [];
+var pizzas = [];
+var rawOrders = [];
+
 $(document).ready(function() {
     $(window).scroll(function() {
         var wScroll = $(window).scrollTop();
@@ -12,18 +24,53 @@ $(document).ready(function() {
 
     $.ajax({
         url: "../php/api/menu.php",
-        type: "POST",
+        type: "GET",
         dataType: "JSON",
         success: function(res) {
             
             for(var i = 0; i < res.length;  i++)
             {
+                var id = res[i]["Id"];
                 var name = res[i]["Pizza"];
                 var zutaten = res[i]["Rezept"];
                 var preisK = res[i]["28cm"];
                 var preisG = res[i]["32cm"];
 
+                var pizzaObject = {
+                    id: id,
+                    name: name,
+                    preisK: preisK,
+                    preisG: preisG
+                }
+
+                pizzas.push(pizzaObject);
+
                 document.getElementById('PizzaContainer').innerHTML += createCard(name, zutaten, preisK, preisG);
+            }
+        }
+    });
+
+    $.ajax({
+        url: "../php/api/locations.php",
+        type: "GET",
+        dataType: "JSON",
+        success: function(res) {
+            
+            for(var i = 0; i < res.length;  i++)
+            {
+                var id = res[i]["Id"];
+                var plz = res[i]["PLZ"];
+                var cityname = res[i]["Ortsname"];
+                
+                var city = {
+                    id: id,
+                    plz: plz,
+                    city: cityname 
+                }
+
+                cities.push(city);
+
+                document.getElementById('SelectOrt').innerHTML += "<option>" + cityname + "</option>";
             }
         }
     });
@@ -37,5 +84,64 @@ function addToOrder(sender) {
     var name = sender.parentNode.parentNode.children[1].children[0].innerHTML;
     var selection = document.getElementById('Select' + name).options[document.getElementById('Select' + name).selectedIndex].value;
 
-    document.getElementById('OrderList').innerHTML += "<div class='form-group'><input type='text' class='form-control' value='" + name + " - " + selection + "' ></div>";
+    var orderString = "" + name + " - " + selection;
+
+    rawOrders.push(orderString);
+
+    document.getElementById('OrderList').innerHTML += "<div class='form-group'><input type='text' class='form-control mt-2' value='" + name + " - " + selection + "' ></div>";
+}
+
+function getCityIdByName(name) {
+    var id = 0;
+
+    for(i = 0; i < cities.length; i++)
+    {
+        if(cities[i].city == name)
+        {
+            id = cities[i].id;
+        }
+    }
+
+    return id;
+}
+
+function getPizzaIdByName(name) {
+    var id = 0;
+    
+    for(i = 0; i < pizzas.length; i++)
+    {
+        if(pizzas[i].name == name)
+        {
+            id = pizzas[i].id;
+        }
+    }
+
+    return id;
+}
+
+
+function splitOrderObject(order) {
+    var splittedOrderObject = order.split(" - ");
+    var splitSize = splittedOrderObject[1].split("cm");
+
+    var orderObject = {
+        id: getPizzaIdByName(splittedOrderObject[0]),
+        groesse: splitSize[0]
+    }
+
+    fullOrder.bestelloptionen.push(orderObject);
+}
+
+function packOrder() {
+    fullOrder.name = document.getElementById('Name').value;
+    fullOrder.strasse = document.getElementById('Strasse').value;
+    fullOrder.telefon = document.getElementById('Telefon').value;
+    fullOrder.ortId = getCityIdByName(document.getElementById('SelectOrt').options[document.getElementById('SelectOrt').selectedIndex].innerHTML);
+    
+    for(var i = 0; i < rawOrders.length; i++)
+    {
+        splitOrderObject(rawOrders[i]);
+    }
+
+    console.log(fullOrder);
 }
