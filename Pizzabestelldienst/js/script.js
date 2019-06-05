@@ -1,9 +1,9 @@
 var fullOrder = {
-    Name: "",
-    Strasse: "",
-    OrtId: "",
-    Telefon: "",
-    Bestelloptionen: []
+    name: "",
+    strasse: "",
+    ortId: "",
+    telefon: "",
+    bestelloptionen: []
 }
 
 var cities = [];
@@ -125,18 +125,18 @@ function splitOrderObject(order) {
     var splitSize = splittedOrderObject[1].split("cm");
 
     var orderObject = {
-        PizzaId: getPizzaIdByName(splittedOrderObject[0]),
-        Groesse: splitSize[0]
+        id: getPizzaIdByName(splittedOrderObject[0]),
+        groesse: splitSize[0]
     }
 
-    fullOrder.Bestelloptionen.push(orderObject);
+    fullOrder.bestelloptionen.push(orderObject);
 }
 
 function packOrder() {
-    fullOrder.Name = document.getElementById('Name').value;
-    fullOrder.Strasse = document.getElementById('Strasse').value;
-    fullOrder.Telefon = document.getElementById('Telefon').value;
-    fullOrder.OrtId = getCityIdByName(document.getElementById('SelectOrt').options[document.getElementById('SelectOrt').selectedIndex].innerHTML);
+    fullOrder.name = document.getElementById('Name').value;
+    fullOrder.strasse = document.getElementById('Strasse').value;
+    fullOrder.telefon = document.getElementById('Telefon').value;
+    fullOrder.ortId = getCityIdByName(document.getElementById('SelectOrt').options[document.getElementById('SelectOrt').selectedIndex].innerHTML);
     
     for(var i = 0; i < rawOrders.length; i++)
     {
