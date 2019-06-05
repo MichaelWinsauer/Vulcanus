@@ -1,9 +1,9 @@
 var fullOrder = {
     Name: "",
-    Dtrasse: "",
+    Strasse: "",
     OrtId: "",
     Telefon: "",
-    Bestelloptionen: []
+    Bestellpositionen: []
 }
 
 var cities = [];
@@ -129,7 +129,7 @@ function splitOrderObject(order) {
         Groesse: splitSize[0]
     }
 
-    fullOrder.Bestelloptionen.push(orderObject);
+    fullOrder.Bestellpositionen.push(orderObject);
 }
 
 function packOrder() {
@@ -142,6 +142,21 @@ function packOrder() {
     {
         splitOrderObject(rawOrders[i]);
     }
+    sendOrder();
+}
 
-    console.log(fullOrder);
+
+function sendOrder() {
+    
+    $.ajax({
+        url: "../php/api/order.php",
+        type: "POST",
+        contentType: "application/json",
+        dataType: "JSON",
+        data: JSON.stringify(fullOrder),
+        success: function(res) {
+            console.log(res["Success"]);
+            console.log(res["ErrorMessage"]);           
+        }
+    });
 }
