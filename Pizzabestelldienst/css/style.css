@@ -101,3 +101,27 @@
         max-width: 80%;
     }
 }
+
+#PizzaCount {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#PizzaCount::before {
+    content: attr(data-before);
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    transform: translate(50%, -35%);
+    font-size: 12px;
+    color: black;
+    background-color: transparent;
+    z-index: 10;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+}

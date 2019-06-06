@@ -81,9 +81,11 @@ function addToOrder(sender) {
     if(document.getElementById('OrderList').children.length == 0)
     {
         document.getElementById('OrderContainer').innerHTML += "<button onclick='packOrder()' type='submit' class='btn btn-primary'>Bestellen</button>";
+        $('#PizzaCount').append('<style>#PizzaCount:before{background-color: white !important;}</style>');
     }
 
     document.getElementById('OrderList').innerHTML += "<div class='form-group'><input type='text' class='form-control mt-2' value='" + name + " - " + selection + "' ></div>";
+    $('#PizzaCount').attr('data-before', document.getElementById('OrderList').children.length);
 }
 
 function getCityIdByName(name) {
