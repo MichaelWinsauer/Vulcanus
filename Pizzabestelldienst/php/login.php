@@ -1,27 +1,30 @@
 <?php
-	require_once("../connect.php");
+require_once("connect.php");
 
-	$pwHash = retrievePassword($_POST["inputName"]);
+$pwHash = retrievePassword($_POST["inputName"]);
 
-	if(password_verify($_POST["inputPassword"], $pwHash))
+if(password_verify($_POST["inputPassword"], $pwHash))
+{
+	$employeeType = retrieveEmployeeType($_POST["inputName"]);
+	$id = retrieveId($_POST["inputName"]);
+
+	if(intval($employeeType) == 1) //Cook
 	{
-		$employeeType = retrieveEmployeeType($_POST["inputName"]);
-		$id = retrieveId($_POST["inputName"]);
-
-		if(intval($employeeType) == 1)
-		{
-			setcookie("Id","$id");
-			setcookie("Name",$_POST["inputName"]);
-			header("Location: koeche.php");
-		}
-		else
-		{
-			setcookie("Id","$id");
-			setcookie("Name",$_POST["inputName"]);
-			header("Location: lieferanten.php");
-		}
+		setcookie("Id","$id",null,'/');
+		setcookie("Name",$_POST["inputName"],null,'/');
+		header("Location: ../html/personal/koeche.html");
 	}
-	
+	elseif(intval($employeeType) == 2) //Deliverymen
+	{
+		setcookie("Id","$id",null,'/');
+		setcookie("Name",$_POST["inputName"],null,'/');
+		header("Location: ../html/personal/lieferanten.html");
+	}
+	else
+	{
+		die("Ungültige Stelle");
+	}
+}
 
 function retrieveId($username)
 {
