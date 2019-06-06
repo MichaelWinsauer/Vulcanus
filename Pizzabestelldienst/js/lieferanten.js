@@ -3,9 +3,3 @@
 //Je nach Status den richtigen Knopf verfügbar machen.
 //Auf Knopfdruck mit Ajax die Datenbank updaten
 //Fertig ausgelieferte Pizzen aus der Tabelle entfernen.
-
-$(document).ready(() =>
-{
-    $("#staffMemberName").text("Josefina");
-
-});
