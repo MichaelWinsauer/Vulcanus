@@ -25,8 +25,8 @@ ORDER BY p.Id ASC
 -- Köche
 CREATE OR REPLACE VIEW vKoeche AS
 SELECT 
-	b.Id AS 'Bestell-ID',
-	bp.Id AS 'Bestellposition-ID',
+	b.Id AS 'BestellID',
+	bp.Id AS 'BestellpositionID',
 	p.Name AS Pizza,
 	g.Groesse AS Groesse,
 	(		
@@ -53,8 +53,8 @@ ORDER BY b.Id ASC, bp.Id ASC;
 -- Lieferanten
 CREATE OR REPLACE VIEW vLieferanten AS
 SELECT
-	b.Id AS 'Bestell-ID',
-	bp.Id AS 'Bestellposition-ID',
+	b.Id AS 'BestellID',
+	bp.Id AS 'BestellpositionID',
 	p.Name AS Pizza,
     g.Groesse,
 	b.Name,
