@@ -33,17 +33,19 @@
 */
 
 //Format of returned JSON: Object with the Properties
-//Success, ErrorMessage 
+//Success, OrderId, ErrorMessage 
 
 //Examples of returned JSON:
 /*
 {
 	"Success": true,
+	"OrderId": "3",
 	"ErrorMessage": null
 }
 
 {
 	"Success": false,
+	"OrderId": null,
 	"ErrorMessage": "Description of problem"
 }
 */
@@ -70,6 +72,7 @@ insertItemsIntoDB($orderId, $orderItems);
 
 $answer = new stdClass();
 $answer->Success = true;
+$answer->OrderId = $orderId;
 $answer->ErrorMessage = null;
 sendAnswerAndDie($answer);
 
@@ -82,6 +85,7 @@ function decodeJson($inputText)
 		//JSON could not be parsed
 		$answer = new stdClass();
 		$answer->Success = false;
+		$answer->OrderId = null;
 		$answer->ErrorMessage = json_last_error_msg();
 		sendAnswerAndDie($answer);
 	}
@@ -100,6 +104,7 @@ function checkOrderForExpectedKeys($order)
 		{
 			$answer = new stdClass();
 			$answer->Success = false;
+			$answer->OrderId = null;
 			$answer->ErrorMessage = "Invalid JSON. Key '$key' is missing.";
 			sendAnswerAndDie($answer);
 		}
@@ -122,6 +127,7 @@ function checkOrderDataTypes($order)
 		{
 			$answer = new stdClass();
 			$answer->Success = false;
+			$answer->OrderId = null;
 			$answer->ErrorMessage = "Value of '$key' is wrong datatype.";
 			sendAnswerAndDie($answer);
 		}
@@ -138,6 +144,7 @@ function checkItemForExpectedKeys($item, $i)
 		{
 			$answer = new stdClass();
 			$answer->Success = false;
+			$answer->OrderId = null;
 			$answer->ErrorMessage = "Invalid JSON. Key '$key' is missing in item $i of Bestellpositionen.";
 			sendAnswerAndDie($answer);
 		}
@@ -157,6 +164,7 @@ function checkItemDataTypes($item, $i)
 		{
 			$answer = new stdClass();
 			$answer->Success = false;
+			$answer->OrderId = null;
 			$answer->ErrorMessage = "Value of '$key' is wrong datatype in item #$i of Bestellpositionen.";
 			sendAnswerAndDie($answer);
 		}
@@ -200,6 +208,7 @@ function insertOrderIntoDb($order)
 	{
 		$answer = new stdClass();
 		$answer->Success = false;
+		$answer->OrderId = null;
 		$answer->ErrorMessage = ($statement->errorInfo())[2];
 		sendAnswerAndDie($answer);
 	}
@@ -274,6 +283,7 @@ function insertItemsIntoDB($orderId, $orderItems)
 		{
 			$answer = new stdClass();
 			$answer->Success = false;
+			$answer->OrderId = null;
 			$answer->ErrorMessage = "Error while inserting order item #$i: " . ($statement->errorInfo())[2];
 			sendAnswerAndDie($answer);
 		}
