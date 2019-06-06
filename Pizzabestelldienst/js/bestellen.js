@@ -86,7 +86,7 @@ function addToOrder(sender) {
     }
 
     document.getElementById('OrderList').innerHTML += "<div class='form-group'><input type='text' class='form-control mt-2' value='" + name + " - " + selection + "' ></div>";
-    $('#PizzaCount').attr('data-before', document.getElementById('OrderList').children.length);
+    $('#PizzaCount').attr('data-before', document.getElementById('OrderList').children.length - 1);
 }
 
 function getCityIdByName(name) {
