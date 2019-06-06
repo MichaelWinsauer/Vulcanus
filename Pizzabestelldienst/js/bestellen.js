@@ -80,8 +80,9 @@ function addToOrder(sender) {
 
     if(document.getElementById('OrderList').children.length == 0)
     {
-        document.getElementById('OrderContainer').innerHTML += "<button onclick='packOrder()' type='submit' class='btn btn-primary'>Bestellen</button>";
+        document.getElementById('OrderContainer').innerHTML += "<button onclick='packOrder()' id='OrderButton' type='submit' class='btn btn-primary'>Bestellen</button>";
         $('#PizzaCount').append('<style>#PizzaCount:before{background-color: white !important;}</style>');
+        document.getElementById('OrderList').innerHTML += "<h2 class='my-2'>Ihre Bestellung</h2>"
     }
 
     document.getElementById('OrderList').innerHTML += "<div class='form-group'><input type='text' class='form-control mt-2' value='" + name + " - " + selection + "' ></div>";
@@ -152,8 +153,8 @@ function sendOrder() {
         dataType: "JSON",
         data: JSON.stringify(fullOrder),
         success: function(res) {
-            console.log(res["Success"]);
-            console.log(res["ErrorMessage"]);           
+            $('#OrderButton').attr('disabled','disabled');
+            document.getElementById('OrderContainer').innerHTML += "<p>Ihre Bestellung war erfolgreich. Um Ihre Bestellung zu verfolgen, benutzen Sie die Bestellnummer:<br><h2>" + res["OrderId"] + "</h2></p>";            
         }
     });
 }

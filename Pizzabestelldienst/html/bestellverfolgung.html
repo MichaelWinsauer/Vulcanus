@@ -12,7 +12,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="../js/script.js"></script>
-        <script src="../js/bestellen.js"></script>
+        <script src="../js/bestellverfolgung.js"></script>
     </head>
     <body>
 
@@ -33,10 +33,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="uebersicht.html">Übersicht</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="bestellen.html">Bestellen</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="bestellverfolgung.html">Bestellverfolgung</a>
                         </li>
                         <li class="nav-item dropdown" >
@@ -49,51 +49,40 @@
                                 </form>
                             </div>
                         </li>
-                        <li class="nav-item mx-2 display-none" id="PizzaCount">
-                            <a href="#OrderContainer"><img src="../images/pizza-box.png"></a>
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!--Einkaufsliste-->
-        <div class="container-fluid py-5">
-            <div class="container pt-5" id="OrderContainer">
 
-                <form>
-                    <div class="form-group">
-                        <label for="Name">Name</label>
-                        <input type="text" class="form-control" id="Name" placeholder="Name...">
-                    </div>
-                    <div class="form-group">
-                        <label for="Strasse">Strasse</label>
-                        <input type="text" class="form-control" id="Strasse" placeholder="Strasse...">
-                    </div>
-                    <div class="form-group">
-                        <label for="Telefon">Telefon</label>
-                        <input type="text" class="form-control" id="Telefon" placeholder="Telefonnummer...">
-                    </div>
-                    <div class="fomr-group">
-                        <label for="SelectOrt">Ort</label>
-                        <select class="form-control" id="SelectOrt">
-    
-                        </select>
-                    </div>
-                    <fieldset disabled id="OrderList">
-                        
-                    </fieldset>
-                </form>
+        <!-- Bestellnummer -->
+        <div class="container py-5 my-5">
+            <div class="form-group">
+                <label for="OrderIdInput"></label>
+                <input class="form-control mr-5" id="OrderIdInput" placeholder="Bestellnummer..." type="text">
+                <button onclick="sendId();" class="btn btn-primary mt-2" type="button">Anzeigen</button>
             </div>
         </div>
-                
-        <!--Pizzen-->
-        <div class="container-fluid d-flex justify-content-around flex-wrap py-5" id="PizzaContainer">
-        
-        </div>
-        
-                
-                
 
+        <!-- Zeitstrahl -->
+        <div class="container py-5 my-5 d-flex justify-content-around flex-md-row flex-sm-column">
+            <div class="col-md-6 col-xs-1 d-flex justify-content-end">
+                <div class="background mr-5">
+                    <div class="foreground">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-1">
+                <div class="d-flex flex-column justify-content-around" id="Staten">
+                    <h2>Bestellung angenommen</h2>
+                    <h2>Wird zubereitet</h2> 
+                    <h2>Im Ofen</h2> 
+                    <h2>Fertig gebacken</h2>
+                    <h2>Wird ausgeliefert</h2>
+                    <h2>Ist ausgeliefert</h2>
+                </div>
+            </div>
+        </div>
         <!--Footer-->
         <footer class="pt-5 bg-59 text-white">
             <div class="container text-center text-md-left ">
