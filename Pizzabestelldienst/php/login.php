@@ -1,58 +1,38 @@
 <?php
 require_once("connect.php");
+require_once("classes/Employee.php");
 
-$pwHash = retrievePassword($_POST["inputName"]);
+$employee = retrieveEmployee($_POST["inputName"]);
 
-if(password_verify($_POST["inputPassword"], $pwHash))
+if (password_verify($_POST["inputPassword"], $employee->Pwhash))
 {
-	$employeeType = retrieveEmployeeType($_POST["inputName"]);
-	$id = retrieveId($_POST["inputName"]);
-
-	if(intval($employeeType) == 1) //Cook
+	if (intval($employee->Stelle) == 1) //Cook
 	{
-		setcookie("Id","$id",null,'/');
-		setcookie("Name",$_POST["inputName"],null,'/');
+		setcookie("Id", "$employee->Id", null, '/');
+		setcookie("Name", $employee->Name, null, '/');
+		setcookie("Stelle", $employee->Stelle, null, '/');
 		header("Location: ../html/personal/koeche.html");
+
+		die();
 	}
-	elseif(intval($employeeType) == 2) //Deliverymen
+	elseif (intval($employee->Stelle) == 2) //Deliverymen
 	{
-		setcookie("Id","$id",null,'/');
-		setcookie("Name",$_POST["inputName"],null,'/');
+		setcookie("Id", "$employee->Id", null, '/');
+		setcookie("Name", $employee->Name, null, '/');
+		setcookie("Stelle", $employee->Stelle, null, '/');
 		header("Location: ../html/personal/lieferanten.html");
+
+		die();
 	}
-	else
-	{
-		die("Ungültige Stelle");
-	}
+
+	die("Ungültige Stelle");
 }
 
-function retrieveId($username)
-{
-	//sucht den Usernamen in der Datenbank, gibt das Passwort zurück
-	$pdo = PdoSingleton::getInstance();
-	$statement = $pdo->prepare("SELECT Id FROM angestellte WHERE Name = ?");
-	$statement->execute([$username]);
-	$row=$statement->fetch(PDO::FETCH_ASSOC);
-	return $row["Id"]; //string
-}
-
-function retrievePassword($username)
-{
-	//sucht den Usernamen in der Datenbank, gibt das Passwort zurück
-	$pdo = PdoSingleton::getInstance();
-	$statement = $pdo->prepare("SELECT Pwhash FROM angestellte WHERE Name = ?");
-	$statement->execute([$username]);
-	$row=$statement->fetch(PDO::FETCH_ASSOC);
-	return $row["Pwhash"]; //string
-}
-
-function retrieveEmployeeType($username)
+function retrieveEmployee($username)
 {
 	$pdo = PdoSingleton::getInstance();
-	$statement = $pdo->prepare("SELECT Stelle FROM angestellte WHERE Name = ?");
+	$statement = $pdo->prepare("SELECT * FROM angestellte WHERE Name = ?");
 	$statement->execute([$username]);
-	$row=$statement->fetch(PDO::FETCH_ASSOC);
-	return $row["Stelle"]; //string
-
+	$statement->setFetchMode(PDO::FETCH_CLASS, "Employee", []);
+	return $statement->fetch();
 }
-?>
