@@ -6,26 +6,32 @@
 
 $(document).ready(() =>
 {
-	$.ajax(
-	{
-        url: "../../php/api/vKoeche.php",
-        type: "GET",
-        dataType: "JSON",
-		success: (orderPositions) =>
-		{
-			$("tbody").empty();
-
-			orderPositions.forEach(orderPosition => 
-			{
-				if(orderPosition.Koch == getCookie("Name") || orderPosition.Koch == null)
-				{
-					displayInTable(orderPosition);
-				}
-			});
-		}
-	});
-
+	requestData();
+	window.setInterval(requestData, 5000); //5 seconds
 });
+
+function requestData()
+{
+	$.ajax(
+		{
+			url: "../../php/api/vKoeche.php",
+			type: "GET",
+			dataType: "JSON",
+			success: (orderPositions) =>
+			{
+				$("tbody").empty();
+
+				orderPositions.forEach(orderPosition =>
+				{
+					if(orderPosition.Koch === getCookie("Name") || orderPosition.Koch === null)
+					{
+						displayInTable(orderPosition);
+					}
+				});
+			}
+		});
+
+}
 
 function displayInTable(orderPosition)
 {
@@ -34,7 +40,7 @@ function displayInTable(orderPosition)
 
 function newTr(orderPosition)
 {
-	var tr = "<tr>";
+	let tr = "<tr>";
 	tr += newTd(orderPosition.BestellID);
 	tr += newTd(orderPosition.BestellpositionID);
 	tr += newTd(orderPosition.Pizza);
@@ -51,7 +57,7 @@ function newTr(orderPosition)
 
 function newTd(data)
 {
-	var td = "<td>";
+	let td = "<td>";
 	td += data;
 	td += "</td>";
 
