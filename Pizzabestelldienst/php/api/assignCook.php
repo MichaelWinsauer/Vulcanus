@@ -1,19 +1,19 @@
 <?php
-//Change Status of order position
-//Expects: JSON Object with the Orderposition Id and new status
+//Change Cook of order position
+//Expects: JSON Object with the Orderposition Id and new Cook
 //Returns: JSON Data indicating Success and Error Message
 
 //Method: POST
 //Content-Type: application/json
 
 //Format of Expected Data: JSON Object with the properties:
-//BestellpositionId, Status (Integer 1 - 6)
+//BestellpositionId, Koch (Id)
 
 //Example of valid, expected JSON:
 /*
 {
 	"BestellpositionId": 21,
-	"Status": 2
+	"Koch": 2
 }
 */
 
@@ -35,45 +35,11 @@
 
 $inputText = file_get_contents("php://input"); //get body of POST-Request
 
-$statusChangeRequest = decodeJson($inputText);
+$cookAssignRequest = decodeJson($inputText);
 
-checkOrderpositionExists($statusChangeRequest["BestellpositionId"]);
-//checkStatusExists($statusChangeRequest["Status"]);
+insertIntoDb($cookAssignRequest);
 
-insertIntoDb($statusChangeRequest);
-
-function checkOrderpositionExists($orderposition)
-{
-	require_once("../connect.php");
-
-	$pdo = PdoSingleton::getInstance();
-
-	$sql = '
-	SELECT Id
-	FROM bestellposition
-	WHERE Id = :Id
-	';
-
-	$statement = $pdo->prepare($sql);
-
-	$statement->bindValue(':Id', $orderposition, PDO::PARAM_INT);
-
-	$statement->execute();
-
-	if($statement->rowCount() === 1)
-	{
-		return true;
-	}
-	else
-	{
-		$answer = new stdClass();
-		$answer->Success = false;
-		$answer->ErrorMessage = "Orderposition does not exist in DB";
-		sendAnswerAndDie($answer);
-	}
-}
-
-function insertIntoDb($statusChangeRequest)
+function insertIntoDb($cookAssignRequest)
 {
 	require_once("../connect.php");
 
@@ -81,14 +47,14 @@ function insertIntoDb($statusChangeRequest)
 
 	$sql = '
 	UPDATE bestellposition
-	SET Status = :Status
+	SET Koch = :Koch
 	WHERE Id = :Id
 	';
 
 	$statement = $pdo->prepare($sql);
 
-	$statement->bindValue(':Status', $statusChangeRequest["Status"]);
-	$statement->bindValue(':Id', $statusChangeRequest["BestellpositionId"], PDO::PARAM_INT);
+	$statement->bindValue(':Koch', $cookAssignRequest["Koch"]);
+	$statement->bindValue(':Id', $cookAssignRequest["BestellpositionId"], PDO::PARAM_INT);
 
 	$success = $statement->execute();
 

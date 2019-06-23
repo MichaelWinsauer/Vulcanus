@@ -1,17 +1,14 @@
-//TODO: Mit Ajax regelmäßig die Datenbank abfragen nach vKoeche
-//Tabelle mit diesen Daten erzeugen, dabei nach Koch == null oder Koch == eingeloggter Koch filtern
-//Je nach Status den richtigen Knopf verfügbar machen.
-//Auf Knopfdruck mit Ajax die Datenbank updaten
-//Fertig gebackene Pizzen aus der Tabelle entfernen.
+let requestTimer;
 
 $(document).ready(() =>
 {
 	requestData();
-	window.setInterval(requestData, 5000); //5 seconds
+	requestTimer = window.setInterval(requestData, 5000); //5 seconds
 });
 
 function requestData()
 {
+	$("#loadingIndicator").fadeIn();
 	$.ajax(
 		{
 			url: "../../php/api/vKoeche.php",
@@ -23,14 +20,67 @@ function requestData()
 
 				orderPositions.forEach(orderPosition =>
 				{
-					if(orderPosition.Koch === getCookie("Name") || orderPosition.Koch === null)
+					if (orderPosition.Koch === getCookie("Name") || orderPosition.Koch === null)
 					{
 						displayInTable(orderPosition);
 					}
 				});
+
+				$("#loadingIndicator").fadeOut();
 			}
 		});
 
+}
+
+function changeStatus(orderPositionId, newStatus)
+{
+	let cookAssignRequest =
+		{
+			BestellpositionId: orderPositionId,
+			Koch: getCookie("Id")
+		};
+
+	let statusChangeRequest =
+		{
+			BestellpositionId: orderPositionId,
+			Status: newStatus
+		};
+
+	$.ajax(
+		{
+			url: "../../php/api/assignCook.php",
+			type: "POST",
+			contentType: "application/json",
+			dataType: "JSON",
+			data: JSON.stringify(cookAssignRequest),
+			success: (result) =>
+			{
+				if (!result.Success)
+				{
+					window.alert("Couldn't assign cook: " + result.ErrorMessage);
+				}
+			}
+		});
+
+	$.ajax(
+		{
+			url: "../../php/api/changeStatus.php",
+			type: "POST",
+			contentType: "application/json",
+			dataType: "JSON",
+			data: JSON.stringify(statusChangeRequest),
+			success: (result) =>
+			{
+				if (!result.Success)
+				{
+					window.alert("Couldn't update status: " + result.ErrorMessage);
+				}
+
+				window.clearInterval(requestTimer);
+				requestTimer = window.setInterval(requestData, 5000);
+				requestData();
+			}
+		});
 }
 
 function displayInTable(orderPosition)
@@ -48,7 +98,7 @@ function newTr(orderPosition)
 	tr += newTd(orderPosition.Rezept);
 	tr += newTd(orderPosition.Backzeit);
 	tr += newTd(orderPosition.Status);
-	tr += newTd(createButtons());
+	tr += newTd(createButtons(orderPosition));
 
 	tr += "</tr>";
 
@@ -64,7 +114,11 @@ function newTd(data)
 	return td;
 }
 
-function createButtons()
+function createButtons(orderPosition)
 {
-	return "Buttons";
+	let buttons = `<button type="button" onclick="changeStatus(${orderPosition.BestellpositionID},2)">Zubereiten</button>`;
+	buttons += `<button type="button" onclick="changeStatus(${orderPosition.BestellpositionID},3)">In Ofen</button>`;
+	buttons += `<button type="button" onclick="changeStatus(${orderPosition.BestellpositionID},4)">Fertig gebacken</button>`;
+
+	return buttons;
 }
