@@ -12,13 +12,20 @@
     <script src="../../js/personal.js"></script>
     <script src="../../js/lieferanten.js"></script>
     <style>
+        #loadingIndicator
+        {
+            position: absolute;
+            top: 0;
+            right: 1em;
+        }
     </style>
 </head>
 
 <body>
 <div class="container-responsive">
     <h1>Bestellübersicht für Lieferant <span id="staffMemberName" class="badge badge-secondary"></span></h1>
-    
+    <div id="loadingIndicator">Loading</div>
+
     <table class="table table-striped table-responsive-sm">
         <thead>
             <tr>
@@ -35,51 +42,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1234</td>
-                <td>254907</td>
-                <td>Margerhita</td>
-                <td>32cm</td>
-                <td>Brandtner</td>
-                <td>Am Königsberg 7</td>
-                <td>97070 Würzburg</td>
-                <td>7,50€</td>
-                <td>Fertig gebacken</td>
-                <td>
-                    <button type="button">Geladen</button>
-                    <button type="button">Ausgeliefert</button>
-                </td>
-            </tr>
-            <tr>
-                <td>1234</td>
-                <td>254908</td>
-                <td>Salami</td>
-                <td>32cm</td>
-                <td>Brandtner</td>
-                <td>Am Königsberg 7</td>
-                <td>97070 Würzburg</td>
-                <td>8,90€</td>
-                <td>Fertig gebacken</td>
-                <td>
-                    <button type="button">Geladen</button>
-                    <button type="button">Ausgeliefert</button>
-                </td>
-            </tr>
-            <tr>
-                <td>1236</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Fertig gebacken</td>
-                <td>
-                    <button type="button">Geladen</button>
-                    <button type="button">Ausgeliefert</button>
-                </td>
-            </tr>
+
         </tbody>
     </table>
 </div>
